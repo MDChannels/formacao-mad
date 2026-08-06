@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação MAD · Aula 2 — Quiz de Fixação (Subnichos)</title>
+<style>
+  :root{
+    --bg:#0F1115; --panel:#171A21; --panel2:#1E222B; --ink:#F3F5F8; --muted:#9AA0A8;
+    --yellow:#FFD23F; --green:#2ecc71; --red:#ff5b5b; --line:#272C37; --accent:#26BDEA;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:#05060a; font-family:'Segoe UI',Helvetica,Arial,sans-serif; color:var(--ink);
+       display:flex; justify-content:center; padding:40px 16px;}
+  .wrap{width:100%; max-width:780px;}
+  header{margin-bottom:22px;}
+  .brand{font-size:13px; font-weight:800; letter-spacing:4px; color:var(--yellow);}
+  .kicker{color:var(--muted); font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-top:6px;}
+  h1{font-size:30px; margin-top:8px; letter-spacing:-.5px;}
+  .sub{color:var(--muted); margin-top:8px; font-size:16px; line-height:1.5;}
+  .progress{height:8px; background:var(--panel); border-radius:6px; margin:20px 0 4px; overflow:hidden;}
+  .progress > i{display:block; height:100%; width:0; background:var(--yellow); transition:width .3s;}
+  .pmeta{color:var(--muted); font-size:13px; text-align:right;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:24px 24px; margin-top:18px;}
+  .qnum{color:var(--yellow); font-size:13px; font-weight:700; letter-spacing:1.5px;}
+  .tagline{display:inline-block; margin-left:8px; font-size:11px; font-weight:700; letter-spacing:1px; color:var(--accent);
+           border:1px solid rgba(38,189,234,.4); border-radius:999px; padding:2px 9px; vertical-align:middle;}
+  .qtext{font-size:20px; font-weight:600; margin:10px 0 6px; line-height:1.35;}
+  .scenario{background:#0c0e13; border:1px dashed var(--line); border-radius:10px; padding:14px 16px; margin:12px 0 16px;
+            font-size:15px; color:#cfd4dc; line-height:1.55;}
+  .scenario b{color:#fff;} .scenario .li{display:block; margin:3px 0;}
+  .opt{display:block; width:100%; text-align:left; background:var(--panel2); border:1px solid var(--line);
+       color:var(--ink); font-size:16px; padding:14px 18px; border-radius:11px; margin-bottom:10px; cursor:pointer;
+       transition:border-color .15s, background .15s;}
+  .opt:hover:not(:disabled){border-color:var(--yellow);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--green); background:rgba(46,204,113,.14);}
+  .opt.wrong{border-color:var(--red); background:rgba(255,91,91,.12);}
+  .opt .mark{float:right; font-weight:800;}
+  .fb{margin-top:6px; font-size:15px; line-height:1.5; padding:14px 16px; border-radius:11px; display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:rgba(46,204,113,.10); border:1px solid rgba(46,204,113,.4);}
+  .fb.no{background:rgba(255,91,91,.08); border:1px solid rgba(255,91,91,.35);}
+  .fb b{color:var(--yellow);}
+  .result{background:linear-gradient(135deg,#1a1d25,#111319); border:1px solid var(--yellow);
+          border-radius:18px; padding:34px; margin-top:24px; text-align:center; display:none;}
+  .result.show{display:block;}
+  .score{font-size:56px; font-weight:900; color:var(--yellow);}
+  .rlabel{font-size:19px; margin-top:6px;} .rmsg{color:var(--muted); margin-top:14px; font-size:16px; line-height:1.5;}
+  .btn{margin-top:20px; background:var(--yellow); color:#05060a; border:none; font-weight:800; font-size:16px;
+       padding:13px 26px; border-radius:999px; cursor:pointer;}
+  footer{color:#565d6b; font-size:13px; text-align:center; margin-top:24px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">FORMAÇÃO MAD</div>
+    <div class="kicker">Módulo 5 · Aula 2 · Fixação</div>
+    <h1>Quiz — Subnichos: o verdadeiro interesse das pessoas</h1>
+    <div class="sub">Boa parte é <b style="color:#fff">treino no olho</b>: leia o cenário e identifique o subnicho ou o intruso — sem IA, só raciocínio. O feedback aparece na hora.</div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="pmeta"><span id="answered">0</span>/<span id="total">0</span> respondidas</div>
+  </header>
+
+  <div id="quiz"></div>
+
+  <div class="result" id="result">
+    <div class="score"><span id="scoreN">0</span>/<span id="scoreT">0</span></div>
+    <div class="rlabel" id="rlabel"></div>
+    <div class="rmsg" id="rmsg"></div>
+    <button class="btn" onclick="location.reload()">Refazer o quiz</button>
+  </div>
+
+  <footer>Formação MAD · Módulo 5, Aula 2 — Canal Dark</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    q: "O que é um subnicho?",
+    options: [
+      "O recorte dentro do nicho que deixa claro PRA QUEM o vídeo fala",
+      "Um vídeo isolado dentro do canal",
+      "O nome do canal",
+      "A mesma coisa que nicho, só que menor no número de inscritos"
+    ],
+    correct: 0,
+    exp: "O nicho diz o assunto; o subnicho diz a pessoa. É o recorte que define o público exato do canal."
+  },
+  {
+    q: "Por que o subnicho é chamado de “o verdadeiro interesse das pessoas”?",
+    options: [
+      "Porque tem mais CPM que o nicho",
+      "Porque as pessoas se identificam com o problema/desejo específico delas, não com o nicho amplo",
+      "Porque é o que o YouTube pede no cadastro do canal",
+      "Porque subnicho rende mais inscritos automaticamente"
+    ],
+    correct: 1,
+    exp: "Ninguém se identifica com “Finanças”. A pessoa se identifica com “tô endividado” ou “quero investir”. O subnicho fala a língua dela."
+  },
+  {
+    q: "O nicho de Finanças se abre em vários públicos. Qual alternativa lista SUBNICHOS de verdade?",
+    options: [
+      "Manhã, tarde e noite",
+      "Vídeo curto, vídeo longo e Shorts",
+      "Quem quer investir, quem está endividado, quem quer entender economia",
+      "Português, inglês e espanhol"
+    ],
+    correct: 2,
+    exp: "Subnicho é recorte de PÚBLICO/interesse. Investir, sair das dívidas e economia são pessoas diferentes dentro do mesmo nicho."
+  },
+  {
+    q: "Identifique o subnicho (no olho):",
+    scenario: "<b>Canal:</b> convida pessoas comuns, analisa os extratos e as dívidas de cada uma e confronta os gastos delas.<span class='li'><b>Vídeos:</b> “Ela deve R$60 mil no cartão”, “Auditoria financeira mais caótica do ano”, “Como sair do vermelho”.</span>",
+    options: [
+      "Investimentos para ricos",
+      "Auditoria financeira / sair das dívidas (público endividado)",
+      "Economia e macroeconomia",
+      "Tecnologia financeira"
+    ],
+    correct: 1,
+    exp: "A dor que se repete é dívida e descontrole de gastos. O público é o endividado — subnicho de finanças pessoais/auditoria (estilo Caleb Hammer)."
+  },
+  {
+    q: "Identifique o subnicho (no olho):",
+    scenario: "<b>Canal:</b> faceless, narração + gráficos.<span class='li'><b>Vídeos:</b> “Por que a economia do Japão travou”, “O que causa a inflação”, “A ascensão econômica da China”.</span>",
+    options: [
+      "Como quitar dívidas",
+      "Investir em ações do dia a dia",
+      "Documentário de economia / macroeconomia (público que quer entender economia)",
+      "Renda extra para iniciantes"
+    ],
+    correct: 2,
+    exp: "Nada de finanças pessoais aqui: o padrão é explicar a economia (países, inflação, PIB). Público que quer ENTENDER, não agir na própria conta (estilo Economics Explained)."
+  },
+  {
+    q: "Ache o INTRUSO. Um canal de “sair das dívidas” postou estes vídeos. Qual NÃO pertence ao subnicho?",
+    scenario: "<span class='li'>A) “Método pra quitar o cartão em 6 meses”</span><span class='li'>B) “Planilha gratuita pra organizar dívidas”</span><span class='li'>C) “Os 5 melhores fones bluetooth de 2026”</span><span class='li'>D) “Saí de R$30 mil de dívida — meu passo a passo”</span>",
+    options: [
+      "A", "B", "C", "D"
+    ],
+    correct: 2,
+    exp: "C fala com outro público (quem quer comprar gadget), não com o endividado. É mistura de subnicho — o tipo de vídeo que confunde o algoritmo."
+  },
+  {
+    q: "Ache o INTRUSO. Canal de investimentos para iniciantes:",
+    scenario: "<span class='li'>A) “Como comprar sua primeira ação”</span><span class='li'>B) “Renda fixa x renda variável explicada”</span><span class='li'>C) “Erros de quem começa a investir”</span><span class='li'>D) “Minha rotina matinal de produtividade”</span>",
+    options: [
+      "A", "B", "C", "D"
+    ],
+    correct: 3,
+    exp: "D é produtividade/estilo de vida — outro público. Mesmo sendo um tema “popular”, quebra o foco do subnicho de investimentos."
+  },
+  {
+    q: "Por que misturar subnichos prejudica a ENTREGA do canal?",
+    options: [
+      "Porque o YouTube cobra taxa por vídeo fora do tema",
+      "Porque o algoritmo constrói o perfil da audiência por quem assiste; misturando, ele não sabe pra quem recomendar e para de entregar",
+      "Porque vídeos variados são proibidos",
+      "Porque reduz a duração média automaticamente"
+    ],
+    correct: 1,
+    exp: "O algoritmo aprende quem é seu público. Se cada vídeo atrai gente diferente, ele recomenda pra pessoa errada → CTR e retenção caem → distribuição morre."
+  },
+  {
+    q: "Como identificar o subnicho de um canal SÓ no olho (sem IA)?",
+    options: [
+      "Olhando apenas o número de inscritos",
+      "Vendo 3–5 vídeos e checando pra quem falam, qual dor resolvem e qual promessa se repete",
+      "Perguntando pro criador",
+      "Checando a data de criação do canal"
+    ],
+    correct: 1,
+    exp: "Padrão que se repete em título, thumbnail e comentários revela o público. Mesmas 3 respostas (pra quem / qual dor / qual promessa) = subnicho claro."
+  },
+  {
+    q: "Qual é a regra de ouro do subnicho?",
+    options: [
+      "1 canal = 1 subnicho; a variedade vem dos temas dentro dele",
+      "Quanto mais subnichos no mesmo canal, melhor",
+      "Trocar de subnicho a cada mês pra testar",
+      "Copiar o subnicho do maior canal possível"
+    ],
+    correct: 0,
+    exp: "Foco no público, variedade no assunto. Um canal fala com uma pessoa; os temas mantêm o conteúdo fresco sem trair o subnicho (Aula 3)."
+  },
+  {
+    q: "Dois canais são de Finanças. Um audita dívidas de convidados; o outro ensina a investir em ações. Sobre eles:",
+    options: [
+      "São o mesmo subnicho porque são de Finanças",
+      "São subnichos diferentes porque falam com pessoas diferentes (endividado x investidor)",
+      "Não têm subnicho, só nicho",
+      "Um é nicho e o outro é tema"
+    ],
+    correct: 1,
+    exp: "Mesmo nicho, públicos diferentes = subnichos diferentes. É por isso que um vídeo de um não performa no público do outro."
+  }
+];
+
+const quiz = document.getElementById('quiz');
+const bar = document.getElementById('bar');
+const answeredEl = document.getElementById('answered');
+document.getElementById('total').textContent = QUESTIONS.length;
+document.getElementById('scoreT').textContent = QUESTIONS.length;
+let answered = 0, score = 0;
+
+QUESTIONS.forEach((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const isEye = !!item.scenario;
+  card.innerHTML = `<div class="qnum">PERGUNTA ${i+1}${isEye ? '<span class="tagline">TREINO NO OLHO</span>' : ''}</div>`
+    + `<div class="qtext">${item.q}</div>`
+    + (item.scenario ? `<div class="scenario">${item.scenario}</div>` : '');
+  const fb = document.createElement('div');
+  fb.className = 'fb';
+  item.options.forEach((opt, j) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = opt;
+    b.onclick = () => choose(card, fb, item, j, b);
+    card.appendChild(b);
+  });
+  card.appendChild(fb);
+  quiz.appendChild(card);
+});
+
+function choose(card, fb, item, ji, btn){
+  if(card.dataset.done) return;
+  card.dataset.done = "1";
+  const buttons = card.querySelectorAll('.opt');
+  buttons.forEach((b,idx)=>{
+    b.disabled = true;
+    if(idx === item.correct){ b.classList.add('correct'); b.insertAdjacentHTML('beforeend','<span class="mark">✓</span>'); }
+  });
+  const ok = ji === item.correct;
+  if(ok){ score++; } else { btn.classList.add('wrong'); btn.insertAdjacentHTML('beforeend','<span class="mark">✗</span>'); }
+  fb.classList.add('show', ok ? 'ok':'no');
+  fb.innerHTML = (ok ? '<b>Correto!</b> ' : '<b>Quase.</b> ') + item.exp;
+  answered++;
+  answeredEl.textContent = answered;
+  bar.style.width = (answered/QUESTIONS.length*100) + '%';
+  if(answered === QUESTIONS.length) finish();
+}
+
+function finish(){
+  const r = document.getElementById('result');
+  document.getElementById('scoreN').textContent = score;
+  const pct = score/QUESTIONS.length;
+  let label, msg;
+  if(pct === 1){ label="Olho treinado! 🎯"; msg="Você identifica subnicho e detecta mistura na hora. Pronto para a Aula 3 (Temas e Micronichos)."; }
+  else if(pct >= 0.75){ label="Muito bom!"; msg="Quase lá. Revise os exercícios de intruso que errou — é onde mora o erro mais caro."; }
+  else if(pct >= 0.5){ label="No caminho."; msg="Reassista os slides de “como identificar” e “não misturar” e refaça. Identificar subnicho é a habilidade nº1 do módulo."; }
+  else { label="Bora reforçar."; msg="Sem crise — essa é a aula mais importante. Reassista com calma e treine o olho de novo antes de avançar."; }
+  document.getElementById('rlabel').textContent = label;
+  document.getElementById('rmsg').textContent = msg;
+  r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

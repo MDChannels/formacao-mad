@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação MAD · Aula 1 — Quiz de Fixação</title>
+<style>
+  :root{
+    --bg:#0F1115; --panel:#171A21; --panel2:#1E222B; --ink:#F3F5F8; --muted:#9AA0A8;
+    --yellow:#FFD23F; --green:#2ecc71; --red:#ff5b5b; --line:#272C37;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:#05060a; font-family:'Segoe UI',Helvetica,Arial,sans-serif; color:var(--ink);
+       display:flex; justify-content:center; padding:40px 16px;}
+  .wrap{width:100%; max-width:760px;}
+  header{margin-bottom:26px;}
+  .brand{font-size:13px; font-weight:800; letter-spacing:4px; color:var(--yellow);}
+  .kicker{color:var(--muted); font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-top:6px;}
+  h1{font-size:31px; margin-top:8px; letter-spacing:-.5px;}
+  .sub{color:var(--muted); margin-top:8px; font-size:16px;}
+  .progress{height:8px; background:var(--panel); border-radius:6px; margin:22px 0 4px; overflow:hidden;}
+  .progress > i{display:block; height:100%; width:0; background:var(--yellow); transition:width .3s;}
+  .pmeta{color:var(--muted); font-size:13px; text-align:right;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:26px 24px; margin-top:20px;}
+  .qnum{color:var(--yellow); font-size:13px; font-weight:700; letter-spacing:1.5px;}
+  .qtext{font-size:20px; font-weight:600; margin:10px 0 18px; line-height:1.35;}
+  .opt{display:block; width:100%; text-align:left; background:var(--panel2); border:1px solid var(--line);
+       color:var(--ink); font-size:16px; padding:15px 18px; border-radius:11px; margin-bottom:11px; cursor:pointer;
+       transition:border-color .15s, background .15s;}
+  .opt:hover:not(:disabled){border-color:var(--yellow);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--green); background:rgba(46,204,113,.14);}
+  .opt.wrong{border-color:var(--red); background:rgba(255,91,91,.12);}
+  .opt .mark{float:right; font-weight:800;}
+  .fb{margin-top:6px; font-size:15px; line-height:1.5; padding:14px 16px; border-radius:11px; display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:rgba(46,204,113,.10); border:1px solid rgba(46,204,113,.4);}
+  .fb.no{background:rgba(255,91,91,.08); border:1px solid rgba(255,91,91,.35);}
+  .fb b{color:var(--yellow);}
+  .result{background:linear-gradient(135deg,#1a1d25,#111319); border:1px solid var(--yellow);
+          border-radius:18px; padding:34px; margin-top:26px; text-align:center; display:none;}
+  .result.show{display:block;}
+  .score{font-size:56px; font-weight:900; color:var(--yellow);}
+  .rlabel{font-size:19px; margin-top:6px;}
+  .rmsg{color:var(--muted); margin-top:14px; font-size:16px; line-height:1.5;}
+  .btn{margin-top:20px; background:var(--yellow); color:#05060a; border:none; font-weight:800; font-size:16px;
+       padding:13px 26px; border-radius:999px; cursor:pointer;}
+  footer{color:#565d6b; font-size:13px; text-align:center; margin-top:26px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">FORMAÇÃO MAD</div>
+    <div class="kicker">Módulo 5 · Aula 1 · Fixação</div>
+    <h1>Quiz — Nichos: as grandes divisões do mercado</h1>
+    <div class="sub">Uma resposta por pergunta. O feedback aparece na hora. O objetivo é entender, não decorar.</div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="pmeta"><span id="answered">0</span>/<span id="total">0</span> respondidas</div>
+  </header>
+
+  <div id="quiz"></div>
+
+  <div class="result" id="result">
+    <div class="score"><span id="scoreN">0</span>/<span id="scoreT">0</span></div>
+    <div class="rlabel" id="rlabel"></div>
+    <div class="rmsg" id="rmsg"></div>
+    <button class="btn" onclick="location.reload()">Refazer o quiz</button>
+  </div>
+
+  <footer>Formação MAD · Módulo 5, Aula 1 — Canal Dark</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    q: "O que é um NICHO?",
+    options: [
+      "A grande divisão do mercado — o assunto mais amplo, com milhões de pessoas interessadas",
+      "Um vídeo específico que viralizou",
+      "O formato de edição que você usa nos vídeos",
+      "O horário em que você posta"
+    ],
+    correct: 0,
+    exp: "Nicho é o andar de cima: a grande divisão do mercado (Finanças, Saúde, Terror...). Subnicho e tema vêm depois, afunilando."
+  },
+  {
+    q: "Por que “gostar de assistir” é uma armadilha ao escolher um nicho?",
+    options: [
+      "Porque quem gosta do assunto nunca consegue crescer",
+      "Porque consumir é fácil e prazeroso, mas produzir com constância é um jogo totalmente diferente",
+      "Porque o YouTube proíbe falar de assuntos que você gosta",
+      "Porque nicho não tem nada a ver com interesse pessoal"
+    ],
+    correct: 1,
+    exp: "Consumir dá prazer imediato e zero esforço. Produzir exige pesquisa, roteiro e constância por meses. Ver não é o mesmo que entregar."
+  },
+  {
+    q: "Sobre gostar do assunto, qual afirmação está correta?",
+    options: [
+      "É o que determina o sucesso no curto prazo",
+      "Não tem nenhuma importância para um canal",
+      "Importa no longo prazo (mantém a constância), mas não é determinante no curto prazo",
+      "Só importa se o nicho for de finanças"
+    ],
+    correct: 2,
+    exp: "Gostar do assunto te segura na constância quando ninguém está assistindo (longo prazo). O curto prazo é decidido por demanda + formato + execução."
+  },
+  {
+    q: "Como o ANUNCIANTE enxerga um nicho?",
+    options: [
+      "Como um interesse com intenção — quanto mais comercial, mais marcas querem aparecer ali",
+      "Como uma categoria sem valor nenhum",
+      "Apenas pela quantidade de inscritos do canal",
+      "Como algo irrelevante para o YouTube"
+    ],
+    correct: 0,
+    exp: "Para a marca, nicho é um público com interesse e intenção. Interesses mais comerciais atraem mais anunciantes disputando aquele espaço."
+  },
+  {
+    q: "O que significa CPM?",
+    options: [
+      "Quantidade de comentários por minuto",
+      "Quanto os anunciantes pagam por 1.000 visualizações de anúncio",
+      "O número de cliques na thumbnail",
+      "A duração média dos vídeos do canal"
+    ],
+    correct: 1,
+    exp: "CPM = custo por mil (1.000) impressões de anúncio. Mais anunciantes disputando o mesmo público empurra o CPM para cima."
+  },
+  {
+    q: "Qual grupo de nichos costuma ter os CPMs MAIS ALTOS?",
+    options: [
+      "Games e entretenimento",
+      "Vlogs do dia a dia",
+      "Finanças, jurídico e luxo",
+      "Vídeos de gatos"
+    ],
+    correct: 2,
+    exp: "Finanças/investimentos e luxo giram em US$ 15–50, e jurídico/seguros é ainda mais disputado. Games e entretenimento ficam por volta de US$ 1–8."
+  },
+  {
+    q: "Por que a comercialidade de um nicho influencia a ENTREGA do algoritmo?",
+    options: [
+      "Não influencia em nada",
+      "Porque o YouTube vive de anúncios e tem incentivo econômico para distribuir nichos que geram mais receita por view",
+      "Porque o algoritmo prefere vídeos curtos",
+      "Porque nichos comerciais têm thumbnails melhores automaticamente"
+    ],
+    correct: 1,
+    exp: "O YouTube é um negócio de anúncios. Nicho com mais anunciantes = mais receita por view, então a plataforma tem incentivo para distribuir esse conteúdo."
+  },
+  {
+    q: "Qual é a ordem correta, do mais amplo para o mais específico?",
+    options: [
+      "Tema → Subnicho → Nicho",
+      "Nicho → Subnicho → Tema",
+      "Subnicho → Nicho → Tema",
+      "Formato → Nicho → Tema"
+    ],
+    correct: 1,
+    exp: "Sempre de cima pra baixo: Nicho (o mercado) → Subnicho (o recorte) → Tema (o assunto do vídeo). Ler um canal assim é o que ensina a copiar a estrutura certa."
+  },
+  {
+    q: "O canal Mr. Nightmare narra histórias reais de terror (invasões, stalkers). Como você identifica esse canal?",
+    options: [
+      "Nicho: Terror · Subnicho: histórias reais de terror · Tema: invasões domiciliares",
+      "Nicho: histórias · Subnicho: terror · Tema: narração",
+      "Nicho: narração · Subnicho: Mr. Nightmare · Tema: medo",
+      "Nicho: faceless · Subnicho: vídeo · Tema: YouTube"
+    ],
+    correct: 0,
+    exp: "O nicho é o mercado (Terror/Entretenimento), o subnicho é o recorte (histórias reais de terror) e o tema é o assunto do vídeo (ex.: invasões)."
+  },
+  {
+    q: "Mr. Nightmare (terror), LEMMiNO (mistério) e MagnatesMedia (dinheiro) usam narração/história. O que isso prova?",
+    options: [
+      "Que só dá certo com histórias de terror",
+      "Que contar história é um NICHO por si só",
+      "Que história/narração é um FORMATO — uma forma de entregar qualquer nicho",
+      "Que os três são do mesmo nicho"
+    ],
+    correct: 2,
+    exp: "Mesmo formato (história narrada), nichos diferentes. Isso confirma a tese: história é um formato de entrega, não um nicho."
+  }
+];
+
+const quiz = document.getElementById('quiz');
+const bar = document.getElementById('bar');
+const answeredEl = document.getElementById('answered');
+document.getElementById('total').textContent = QUESTIONS.length;
+document.getElementById('scoreT').textContent = QUESTIONS.length;
+let answered = 0, score = 0;
+
+QUESTIONS.forEach((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<div class="qnum">PERGUNTA ${i+1}</div><div class="qtext">${item.q}</div>`;
+  const fb = document.createElement('div');
+  fb.className = 'fb';
+  item.options.forEach((opt, j) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = opt;
+    b.onclick = () => choose(card, fb, item, j, b);
+    card.appendChild(b);
+  });
+  card.appendChild(fb);
+  quiz.appendChild(card);
+});
+
+function choose(card, fb, item, ji, btn){
+  if(card.dataset.done) return;
+  card.dataset.done = "1";
+  const buttons = card.querySelectorAll('.opt');
+  buttons.forEach((b,idx)=>{
+    b.disabled = true;
+    if(idx === item.correct){ b.classList.add('correct'); b.insertAdjacentHTML('beforeend','<span class="mark">✓</span>'); }
+  });
+  const ok = ji === item.correct;
+  if(ok){ score++; }
+  else { btn.classList.add('wrong'); btn.insertAdjacentHTML('beforeend','<span class="mark">✗</span>'); }
+  fb.classList.add('show', ok ? 'ok':'no');
+  fb.innerHTML = (ok ? '<b>Correto!</b> ' : '<b>Quase.</b> ') + item.exp;
+  answered++;
+  answeredEl.textContent = answered;
+  bar.style.width = (answered/QUESTIONS.length*100) + '%';
+  if(answered === QUESTIONS.length) finish();
+}
+
+function finish(){
+  const r = document.getElementById('result');
+  document.getElementById('scoreN').textContent = score;
+  const pct = score/QUESTIONS.length;
+  let label, msg;
+  if(pct === 1){ label="Dominou o conteúdo. 🎯"; msg="Você entendeu a base de nichos e já sabe identificar o nicho de qualquer canal. Bora pra Aula 2 (Subnichos)."; }
+  else if(pct >= 0.75){ label="Muito bom!"; msg="Base sólida. Revise rapidamente os pontos que errou e siga para a Aula 2."; }
+  else if(pct >= 0.5){ label="No caminho."; msg="Vale reassistir os slides de CPM e do funil Nicho → Subnicho → Tema antes de avançar."; }
+  else { label="Bora reforçar."; msg="Sem crise — reassista a aula com calma e refaça o quiz. Esses conceitos são a base de tudo que vem a seguir."; }
+  document.getElementById('rlabel').textContent = label;
+  document.getElementById('rmsg').textContent = msg;
+  r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
