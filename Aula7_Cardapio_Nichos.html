@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação MAD · Módulo 5 · Aula 7 — Cardápio de Nichos em Alta</title>
+<style>
+  :root{--bg:#05060a;--panel:#111319;--panel2:#1a1d26;--ink:#F3F5F8;--muted:#9AA0A8;--yellow:#FFD23F;--line:#272C37;--accent:#26BDEA;--green:#2ecc71;--red:#ff5b5b;--purple:#b980ff;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Segoe UI',Helvetica,Arial,sans-serif;color:var(--ink);padding:40px 20px;}
+  .wrap{max-width:1180px;margin:0 auto;}
+  header{text-align:center;margin-bottom:28px;}
+  .brand{font-size:12px;font-weight:800;letter-spacing:4px;color:var(--yellow);}
+  .kicker{color:var(--muted);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
+  h1{font-size:40px;font-weight:900;letter-spacing:-1px;margin-top:10px;line-height:1.1;}
+  .sub{color:var(--muted);font-size:17px;line-height:1.5;max-width:680px;margin:12px auto 0;}
+  .disclaimer{display:flex;gap:12px;align-items:flex-start;max-width:820px;margin:24px auto 0;background:rgba(255,91,91,.07);border:1px solid rgba(255,91,91,.35);border-radius:12px;padding:14px 18px;color:#e6c9c9;font-size:14px;line-height:1.55;text-align:left;}
+  .disclaimer b{color:#fff;}
+  .di-ico{font-size:20px;line-height:1.2;flex-shrink:0;}
+  .filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px 0 8px;}
+  .filter{background:var(--panel);border:1px solid var(--line);color:var(--muted);font-size:14px;font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer;transition:all .18s;}
+  .filter:hover{border-color:var(--yellow);color:var(--ink);}
+  .filter.active{background:var(--yellow);color:#05060a;border-color:var(--yellow);}
+  .count{text-align:center;color:#565d6b;font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s;}
+  .card:hover{border-color:var(--yellow);transform:translateY(-3px);}
+  .thumb{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .badge{position:absolute;top:10px;left:10px;background:rgba(255,210,63,.92);color:#05060a;font-size:11px;font-weight:800;letter-spacing:.5px;padding:4px 10px;border-radius:999px;}
+  .avatar{position:absolute;bottom:-18px;right:14px;width:52px;height:52px;border-radius:50%;border:3px solid var(--panel);object-fit:cover;background:#000;}
+  .body{padding:20px 18px 18px;flex:1;display:flex;flex-direction:column;}
+  .cat-pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.5px;border-radius:6px;padding:3px 9px;text-transform:uppercase;align-self:flex-start;}
+  .cname{font-size:19px;font-weight:800;margin-top:8px;}
+  .niche-tag{display:inline-block;margin-top:8px;background:rgba(38,189,234,.10);border:1px solid rgba(38,189,234,.35);color:var(--accent);font-size:12px;font-weight:700;border-radius:6px;padding:4px 10px;align-self:flex-start;}
+  .stats{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap;}
+  .stat{font-size:12px;color:var(--muted);}
+  .stat b{display:block;color:var(--ink);font-size:16px;font-weight:800;margin-bottom:1px;}
+  .btn{margin-top:16px;background:var(--yellow);color:#05060a;border:none;font-weight:800;font-size:15px;padding:12px;border-radius:10px;cursor:pointer;width:100%;transition:background .2s;}
+  .btn:hover{background:#ffdf6b;}
+  .details{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+  .details.open{max-height:640px;}
+  .details-inner{padding-top:16px;border-top:1px solid var(--line);margin-top:16px;}
+  .drow{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:7px 0;border-bottom:1px solid rgba(39,44,55,.5);}
+  .drow span:first-child{color:var(--muted);white-space:nowrap;}
+  .drow span:last-child{color:var(--ink);font-weight:600;text-align:right;}
+  .dip{font-size:13px;color:#cfd4dc;line-height:1.5;margin-top:12px;background:rgba(255,210,63,.06);border-left:3px solid var(--yellow);padding:10px 12px;border-radius:0 8px 8px 0;}
+  .dip b{color:var(--yellow);}
+  .channel-link{display:block;text-align:center;margin-top:14px;background:var(--panel2);border:1px solid var(--line);color:var(--accent);text-decoration:none;font-weight:700;font-size:14px;padding:11px;border-radius:10px;transition:border-color .2s;}
+  .channel-link:hover{border-color:var(--accent);}
+  footer{color:#565d6b;font-size:13px;text-align:center;margin-top:40px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">FORMAÇÃO MAD · MÓDULO 5 · AULA 7</div>
+    <div class="kicker">Cardápio de Nichos</div>
+    <h1>Nichos em Alta — Agora</h1>
+    <div class="sub">48 canais reais que estão bombando. Filtre por categoria e clique em <b style="color:#fff">Ver detalhes</b> para abrir formato, barreira, subnichos, uma dica de aplicação e o link do canal.</div>
+  </header>
+
+  <div class="disclaimer">
+    <span class="di-ico">⚠️</span>
+    <div>
+      <b>Aviso — registrado em 07/08/2026.</b> Este cardápio é uma fotografia do momento. Quando você acessar, um canal pode já não existir, ter mudado de nicho, perdido views, sido desmonetizado ou até deletado. Use como <b>inspiração e leitura de tendência</b>, não como garantia. Sempre valide o nicho no presente antes de apostar nele.
+    </div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+
+  <footer>Formação MAD · Módulo 5, Aula 7 — Cardápio de Nichos em Alta · Dados coletados via YouTube</footer>
+</div>
+
+<script>
+const CATS = {
+  historia:  {label:'História & Docs',    color:'#FFD23F', bg:'rgba(255,210,63,.14)'},
+  drama:     {label:'Histórias & Drama',  color:'#ff5b5b', bg:'rgba(255,91,91,.14)'},
+  musica:    {label:'Música',             color:'#b980ff', bg:'rgba(185,128,255,.16)'},
+  educacao:  {label:'Curiosidades & Educação', color:'#26BDEA', bg:'rgba(38,189,234,.14)'},
+  dinheiro:  {label:'Finanças & Negócios',color:'#2ecc71', bg:'rgba(46,204,113,.14)'},
+  fe:        {label:'Fé & Espiritualidade', color:'#ffd1a1', bg:'rgba(255,209,161,.14)'},
+  especifico:{label:'Nichos Específicos', color:'#ffa94d', bg:'rgba(255,169,77,.16)'}
+};
+
+const CH = [
+  {name:'Minke', cat:'historia', niche:'História narrada (POV)', subs:'6,96 mil', vids:'4 vídeos', lang:'Indonésio', fmt:'Faceless · narração POV', barrier:'Média (roteiro + narração)', subs2:'Profissões antigas, vida cotidiana histórica, curiosidades do passado', tip:'O diferencial é o ângulo "POV: você vive como ___". Faz o espectador VIVER o momento histórico. Fácil de adaptar pra qualquer país/idioma.', thumb:'So6nBHsN1fo', av:'DWjZSxeVttzNl47woyv7FPXN4V_VwLdt_JJKfmJNIYhd_pxMC48nznuw42MIf2KfU6GSsafA', url:'https://www.youtube.com/channel/UCWIyk4ZhFPdo5VzGA9BJbow', hot:true},
+  {name:'Душевные Рассказы', cat:'drama', niche:'Histórias emocionais de vida', subs:'4,54 mil', vids:'17 vídeos', lang:'Russo', fmt:'Faceless · narração dramatizada', barrier:'Média (roteiro emocional)', subs2:'Amor, família, traição, perdão, esperança', tip:'Histórias de vida que mexem com o coração. Público fiel (mais velho). Enorme demanda no mercado russo e adaptável.', thumb:'bgDDJMHMZdY', av:'G1u7DTuzv_s568At58StwSCrLM1SmDqNR31Jss28OeyE6NKeTtWfbsTKsnbVBYOARrpv97ByYA', url:'https://www.youtube.com/channel/UCYZ5Pb6LnwdL8x15uMmYLCw'},
+  {name:'AS Wealth Craft', cat:'dinheiro', niche:'Riqueza & liberdade financeira', subs:'13,5 mil', vids:'36 vídeos', lang:'Inglês', fmt:'Motivacional · narração + visuais', barrier:'Média', subs2:'Mentalidade, hábitos de ricos, disciplina, investimento', tip:'Nicho de dinheiro tem CPM alto. Foca em mentalidade e "comunidade de ação". Público engajado e comercial.', thumb:'cpKLD9wfs_g', av:'L83PUFxEJPKg1FD4dtTVqYF6PzHdozh3rLugXnVO9SJSFSyd6wL-mgHyWxhLXfy1JuKH4sThSw', url:'https://www.youtube.com/channel/UCkVHG46tS6ZgYrZ2MZoBI8A'},
+  {name:'Mundo Fascinante TV', cat:'educacao', niche:'Fatos & curiosidades', subs:'27,2 mil', vids:'20 vídeos', lang:'Português', fmt:'Faceless · lista/curiosidades', barrier:'Baixa-Média', subs2:'Ciência, natureza, mistérios, recordes, "você sabia"', tip:'Um dos maiores do lote. Curiosidade é evergreen e escalável. Cuidado: barreira mais baixa = mais concorrência.', thumb:'ZWevy2yl4FY', av:'BCV7gMYrRroi_ExmeCoHZvfurgLDQjXnOTjItC6tWi6QXBjypw8-snkDXJXkws-LHIggGHeJ', url:'https://www.youtube.com/channel/UC1EDXcSr6KYLtjrrd-BCWiw', hot:true},
+  {name:'AFRO DEEP VANTA', cat:'musica', niche:'Afro House (deep/elegante)', subs:'20,9 mil', vids:'10 vídeos', lang:'Instrumental', fmt:'Música · mix/set temático', barrier:'Média (curadoria + estética)', subs2:'Afro house, tribal, deep, lounge', tip:'Só 10 vídeos e 20,9 mil subs = formato de música escala rápido. Estética visual coesa é o segredo. Modelo replicável (igual seu Horyon Blue!).', thumb:'dQPe58cFGDc', av:'gY-mo4Hcbn-rfZ769yR32p9fuVgkkOaRrYSgVCAH3JijJGYCSBRg_dIZWudvhINxv1EqHiKngg', url:'https://www.youtube.com/channel/UCzp5IbO2oyDPZM8dDBkm6Bw', hot:true},
+  {name:'Axel Frosten', cat:'musica', niche:'Música épica/guerreira', subs:'11,1 mil', vids:'7 vídeos', lang:'Instrumental', fmt:'Música · faixa cinematográfica', barrier:'Média', subs2:'Épico, coragem, batalha, motivacional', tip:'7 vídeos, 11 mil subs. Música épica "desperta o fogo interior". Nicho emocional forte, thumbs dramáticas.', thumb:'rtMy83NHEa8', av:'4rOmNfYGQ9MY_vwBs5DCi_SZDEpM3q6V17ZPe4qIZvppJg53kG0WbD_5zHzL6g2MA9DG3cN_', url:'https://www.youtube.com/channel/UCThd9ueZ0hM0zXLlhhBmbgQ'},
+  {name:'Freydisa', cat:'musica', niche:'Música Viking/Nórdica', subs:'11 mil', vids:'7 vídeos', lang:'Instrumental', fmt:'Música · épico cinematográfico', barrier:'Média', subs2:'Viking, lendas nórdicas, espírito guerreiro', tip:'Subnicho quente: música nórdica. 7 vídeos = 11 mil subs. Estética viking + som cinematográfico. Fandom passional.', thumb:'-ry77DfonsE', av:'-aaLw6gSkztNIMd40uDQqbKpE_tGeToUgKESTvZwHtz66Nr2A0x5wXwHC_HdHbE2lYp5I_XA', url:'https://www.youtube.com/channel/UCUY7YFcw2yzLu0sXk9W-DoQ'},
+  {name:'Tito Primitivo', cat:'historia', niche:'Humanos antigos', subs:'5,65 mil', vids:'12 vídeos', lang:'Espanhol', fmt:'Faceless · narração educativa', barrier:'Média', subs2:'Pré-história, tribos antigas, evolução, cotidiano primitivo', tip:'"Explico coisas interessantes de humanos antigos." Foco cirúrgico num micronicho — exatamente o que ensinamos na Aula 3.', thumb:'pKH6N7nfNNA', av:'eIyUv-1ryVRJy8qzd-2up78olKQze3pBf3yHiRFEh-JQlbqGXgPL_ACjdazhLdAfUm62qOY', url:'https://www.youtube.com/channel/UCnSBGz-bSSqT64liRXSWRMQ'},
+  {name:'Sci-Fry', cat:'especifico', niche:'Fandom sci-fi (Pacific Rim)', subs:'9,18 mil', vids:'12 vídeos', lang:'Inglês', fmt:'Vídeo-ensaio / lore de franquia', barrier:'Média', subs2:'Pacific Rim, kaiju, mechas, lore de filmes', tip:'Micronicho ultra-específico: um universo de filme só. Fandom pequeno mas fanático. Exemplo perfeito de barreira por paixão.', thumb:'H9Vgsq717Cs', av:'i2bPkRu1rSvoLEjruipGpcKmLO6-LjjTSK6MHVGeFQSgKXX77pOer5rX-13mLDDVFjKtlFjz', url:'https://www.youtube.com/channel/UCnZ-Lt3kfn6Izt6Xcpl3LkA'},
+  {name:'Historia Del Comercio', cat:'historia', niche:'História do comércio', subs:'17,2 mil', vids:'11 vídeos', lang:'Espanhol', fmt:'Documentário faceless', barrier:'Média-Alta (pesquisa)', subs2:'Rota da Seda, especiarias, metais, invenções, mercados', tip:'Micronicho brilhante: história vista pelo comércio. 11 vídeos = 17 mil subs. Ângulo original dentro de "história".', thumb:'-o0xHW3GfcU', av:'4f72RH77PiBSHyfyAzyjyKVlTrZqi6Fa671ZIS3hkK06PtZvr3nkMEdn-DhIxPtGT4z-fJbm', url:'https://www.youtube.com/channel/UC6_DCl4fmfIArOb8eHelhjw', hot:true},
+  {name:'SuperDocs Explore', cat:'historia', niche:'Documentário de geografia/mistério', subs:'7,93 mil', vids:'9 vídeos', lang:'Português', fmt:'Documentário imersivo faceless', barrier:'Média-Alta', subs2:'Lugares impossíveis, natureza extrema, adaptação humana', tip:'Documentário imersivo em PT-BR. Mistérios da geografia e natureza. Boa oportunidade no mercado brasileiro.', thumb:'xFBUEv9_XxQ', av:'B7ftxWAckPbvIYZ0ov8kE9PM8p3cDtiP3vJvJqK6_Tf5snE-a8Eyd-z5M4A0diC10Af5j6eusw', url:'https://www.youtube.com/channel/UCMMuJHFBR3ATQtIL-RWvsBg'},
+  {name:'Decoded Genius Clips', cat:'educacao', niche:'Clips de experts / insights', subs:'19,4 mil', vids:'11 vídeos', lang:'Inglês', fmt:'Cortes / clips curados', barrier:'Baixa-Média', subs2:'Frameworks, ideias de especialistas, mentalidade', tip:'Formato de "clips" de um canal maior. 11 vídeos = 19 mil subs. Reaproveita conteúdo de autoridade. Escala rápido.', thumb:'twVa1ID6n4A', av:'QjWCSfWeyLHOFg2H9VhvD3OWGgsGl78dSIc-_QDQFGqiJfaHgS0PPqGjmaXPHpc2UaUDQ1Cz', url:'https://www.youtube.com/channel/UCVTaRlWRR96slkfLafeU_4Q'},
+  {name:'Wild Worldnario', cat:'historia', niche:'Natureza selvagem (crua)', subs:'7,02 mil', vids:'8 vídeos', lang:'Inglês', fmt:'Documentário de vida selvagem', barrier:'Média-Alta', subs2:'Predadores, sobrevivência animal, natureza "sem filtro"', tip:'"Esqueça documentários infantis." Posiciona pela brutalidade real da natureza — diferenciação clara do gênero.', thumb:'gVH-n7cAcl0', av:'ZJzbDJ1Ty0eiMiMkmq_c1c2o4Riq0xFCi8jNfqzgYwo-EPCOIee4BBMn-1_3U_uo8vm9hxcvUw', url:'https://www.youtube.com/channel/UCrgRgJJt5XHcf86kHpvH5uw'},
+  {name:'One Nation Voices', cat:'musica', niche:'Worship cristão cinematográfico', subs:'13,3 mil', vids:'9 vídeos', lang:'Inglês', fmt:'Música · worship cinematográfico', barrier:'Média', subs2:'Louvor, fé, patriotismo americano', tip:'Cruza worship + patriotismo (EUA). Público cristão é gigante e fiel. 9 vídeos = 13 mil subs.', thumb:'RTPlzYsiDBw', av:'gN5aLXylR9EGWuY66rUY7GEaMr1siGr86wJCioPjK-xcDI4817ZG--syZyatYSj--A_aVtDB', url:'https://www.youtube.com/channel/UCQREYOydMuPisfxzFKBwWRw'},
+  {name:'Whymentary', cat:'educacao', niche:'O "porquê" das coisas', subs:'8,72 mil', vids:'6 vídeos', lang:'Inglês', fmt:'Explicativo curto faceless', barrier:'Média', subs2:'Por que fenômenos do dia a dia acontecem', tip:'"O porquê por trás das maravilhas do cotidiano." 6 vídeos = 8,7 mil subs. Curiosidade explicativa, formato enxuto.', thumb:'Cc_Y9Fb-g5s', av:'XRjGOUB0lZkbinEDzxmp3QQtakREJ9JUka791s_qy36unK-3NG1Reb9j_4begg1ZBLGjtbkNzA', url:'https://www.youtube.com/channel/UChsYs93JAJOK2rNqThGSW7w'},
+  {name:'Revealed', cat:'especifico', niche:'Vídeo-ensaios de futebol', subs:'24,9 mil', vids:'5 vídeos', lang:'Inglês', fmt:'Vídeo-ensaio (football)', barrier:'Média-Alta (edição/roteiro)', subs2:'Táticas, histórias, jogadores, análises', tip:'Só 5 vídeos e quase 25 mil subs! Vídeo-ensaio de futebol bem produzido. Prova que qualidade > quantidade.', thumb:'E_30LPEaq8M', av:'4BbjwSu9K4uW5rCkWwpql_CjYO4cX9jlDFFn2CV_nbzAcmqE745Vt87NrnRtVBAi48MBW4nH', url:'https://www.youtube.com/channel/UCDwVYLl8Z6PoxarQIG50FDQ', hot:true},
+  {name:'DramaKing', cat:'drama', niche:'Contos africanos / drama de vila', subs:'8,48 mil', vids:'5 vídeos', lang:'Inglês', fmt:'História narrada como filme', barrier:'Média', subs2:'Folclore africano, drama de família, realeza, traição', tip:'"Toda história contada como um filme." Folktales africanos = nicho emergente forte. 5 vídeos = 8,4 mil subs.', thumb:'vJuSFN3ySlQ', av:'Uogc4eMRyFHvZ08FtcDOlOxCG7jX65r07jBbkE5cr1_AJx5NkX1O6_b3UaA_5o4WbWtPnxH09Q', url:'https://www.youtube.com/channel/UCpbKNtwqeUHhwmNLb7SoNpA'},
+  {name:'Emotional Revenge Tales', cat:'drama', niche:'Histórias de vingança/karma', subs:'2,28 mil', vids:'6 vídeos', lang:'Inglês', fmt:'História narrada dramatizada', barrier:'Média', subs2:'Traição, karma, mentiras expostas, segredos de família', tip:'Nicho quente de "revenge stories". Emoção + gancho de justiça. Formato reproduzível de histórias.', thumb:'un61jIOh_nY', av:'eLV8d88u9oatiMTk46x658WFKllXf3HxhoZvHtm15AYcAyziSfsyxMAkQMwSZO_64L0IPJPI', url:'https://www.youtube.com/channel/UChUknf2agWBwm8iYM8LU5kA'},
+  {name:'見えない設計図', cat:'educacao', niche:'Fenômenos sociais explicados', subs:'4,94 mil', vids:'6 vídeos', lang:'Japonês', fmt:'Explicativo com diagramas', barrier:'Média-Alta (pesquisa)', subs2:'Comportamento, organizações, fenômenos do cotidiano', tip:'"O projeto invisível." Explica o cotidiano como problema de SISTEMA, não de pessoa. Ângulo intelectual único.', thumb:'UbAIrPNajEc', av:'5XMWst4MmX906qIkZwM0v0Q3BtKTVjcH95wRyexWiXrW0iPx8osFZBzyI_chcXtJWCDdrv4o', url:'https://www.youtube.com/channel/UCkspwsZmvSLR0U0pnlOz9Ug'},
+  {name:'Conversa do dia a dia', cat:'drama', niche:'Conversas/histórias cotidianas', subs:'2,15 mil', vids:'27 vídeos', lang:'Português', fmt:'História/diálogo narrado', barrier:'Baixa-Média', subs2:'Situações do dia a dia, relações, dilemas comuns', tip:'Nicho de histórias em PT-BR. 27 vídeos, volume alto. Oportunidade no mercado brasileiro com constância.', thumb:'1UZR0PAth6Q', av:'o-uyyDzf0uCzLBLDAXv5O95lRqovGryNpFRzplCPDgDYgcP4vg9W-xh__MpWjTQiNxMgrHJchA', url:'https://www.youtube.com/channel/UCik87kGCdGJGfneIhZ2Jsdg'},
+  {name:'Ezra Cade', cat:'especifico', niche:'Habilidades esquecidas / bushcraft', subs:'7,26 mil', vids:'8 vídeos', lang:'Inglês', fmt:'Prático / experimento faceless', barrier:'Alta (produção real)', subs2:'Comida selvagem, medicina da montanha, fogo, abrigo, ferramentas', tip:'Habilidades antigas americanas testadas contra a ciência moderna. Barreira alta = pouca concorrência, público fiel.', thumb:'pZaqM_SbeN4', av:'Sdvfi5nYcMrY8r8lnM-ihT7g1gSSzrPCUzq4f6XkUbYifQu-JmW4QTYIJXZ6kAxMvGZnlPNN', url:'https://www.youtube.com/channel/UCTJPfBBz4vSQ0jTvbJShiGw'},
+  {name:'江戸夜語り', cat:'drama', niche:'Contos folclóricos (para dormir)', subs:'5,92 mil', vids:'15 vídeos', lang:'Japonês', fmt:'Narração calma (sleep stories)', barrier:'Média', subs2:'Contos do período Edo, lendas, histórias com lição', tip:'"Contos noturnos de Edo." Cruza folclore + conteúdo para dormir/relaxar. Nicho de sono é enorme e evergreen.', thumb:'XATCQdaA2UE', av:'bAPTaMs9fNrRbuJbpWmNhFwAiy2T3EbvhVK0Z73BjkHjQLvClViiCKShMg886LNproCL-ymV', url:'https://www.youtube.com/channel/UCdsWk8QlDOUXzPQkLV2-7Pw'},
+  {name:'Carolina Living', cat:'especifico', niche:'Imóveis & lifestyle (região)', subs:'2,92 mil', vids:'12 vídeos', lang:'Inglês', fmt:'Guia local faceless', barrier:'Média', subs2:'Melhores cidades, aposentadoria, imóveis, bairros', tip:'Micronicho geográfico: viver na Carolina do Sul. CPM de imóveis é altíssimo. Modelo replicável pra qualquer região.', thumb:'KG9blFjS9Uw', av:'sTfqELoDOA8eAsnUxE9EK2SZOp1N026Eg3F--ZW2n7usO3MwztCD4eKW_09WWhjHAhJS9Nm3-A', url:'https://www.youtube.com/channel/UCqLpkuk64U82HW0s392MQaQ'},
+  {name:'CATACLYSMA | Mundos Perdidos', cat:'historia', niche:'Cataclismos & mundos perdidos', subs:'2,13 mil', vids:'10 vídeos', lang:'Português', fmt:'Documentário faceless', barrier:'Média', subs2:'Civilizações perdidas, cataclismos, mistérios antigos', tip:'Mistério + catástrofe + civilizações perdidas em PT-BR. Gancho poderoso. Nicho novo com espaço no Brasil.', thumb:'EJJ0XdCn4Sg', av:'DgbbO6aIrkZcAYjC35NPNH1LecsyHbeWeRQjaNXsKNhtv9gTbNFi1Tr6k1uNnKT77O8Q5Ng', url:'https://www.youtube.com/channel/UCVgkL9ui9bPyXsvRrpRusyw'},
+  {name:'Animated Physics', cat:'educacao', niche:'Física animada', subs:'21 mil', vids:'4 vídeos', lang:'Inglês', fmt:'Animação educativa', barrier:'Alta (animação)', subs2:'Conceitos de física, fenômenos, ciência visual', tip:'"Física sem enrolação." SÓ 4 vídeos = 21 mil subs! Animação é barreira alta, mas o retorno em autoridade é enorme.', thumb:'GQpOOu4SoKU', av:'VPIJ8UGpot8XYIqjDGUP8b9n6iaBHMEDTw1MgfBRHT84HfXhstadkGaVKuAq-S28K67Y2L38HI0', url:'https://www.youtube.com/channel/UCaNWbEcz3cFJU_VPlv-33bw', hot:true},
+  {name:'Mr. Clayton Wells Stories', cat:'drama', niche:'Drama americano (ficção)', subs:'2,54 mil', vids:'58 vídeos', lang:'Inglês', fmt:'História cinematográfica narrada', barrier:'Média', subs2:'Justiça, coragem, identidades ocultas, segredos de família', tip:'58 vídeos = volume + constância. Drama americano ficcional "como filme". Formato de catálogo de histórias.', thumb:'1O5TT4UhP9U', av:'xsm19lrV2ddQy3WyzgmMETUN7lJ5ZdeSJn9ZWLcXmZlpuEyOraeCXzOtKld3_6mJX77_TfBJqw', url:'https://www.youtube.com/channel/UCO5NakQw6smCyLev9ygTDZw'},
+  {name:'Ruined America', cat:'historia', niche:'Declínio urbano / decadência', subs:'1,78 mil', vids:'15 vídeos', lang:'Inglês', fmt:'Documentário faceless', barrier:'Média', subs2:'Cidades abandonadas, decadência urbana, "antes e depois"', tip:'Nicho de "urbex/decadência" tem forte apelo visual e emocional. Gancho de nostalgia + choque. Crescendo.', thumb:'8IdE_Zuxjf8', av:'hlc4bEULImJymtawn0G92I9h3H6h_Yq_UnurLIT6EoyYdiW8vwLaRA9XrFnw_cxHj-jMDnVJCyo', url:'https://www.youtube.com/channel/UCTM4nNDY7AYgBMP2YLcq6nA'},
+
+  {name:'TwiceReincarnated', cat:'educacao', niche:'Psicologia via anime', subs:'4,82 mil', vids:'13 vídeos', lang:'Inglês', fmt:'Vídeo-ensaio (anime + wellness)', barrier:'Média', subs2:'Solidão, vergonha, autoestima, apego, emoções', tip:'Cruza anime + psicologia/wellness. Usa histórias de anime pra falar de emoções difíceis. Ângulo único que junta dois públicos apaixonados.', thumb:'GBXiF-cJSJY', av:'I2uKqvSWFmp4zzRThdBoFGBIvzNo9YhFh2zGspP4Z8wItx2SKa8j00E_nSMV8NaJsEI_Tgwl', url:'https://www.youtube.com/channel/UCTlzyyp9z_m5RBV4iZWhh7A'},
+  {name:'Psychoeducation', cat:'educacao', niche:'Análise psicológica', subs:'12,3 mil', vids:'5 vídeos', lang:'Inglês', fmt:'Explicativo faceless', barrier:'Média-Alta (pesquisa)', subs2:'Comportamento, análise de literatura psicológica, mente', tip:'Baseado em papers e literatura. 5 vídeos = 12 mil subs. Psicologia séria e aprofundada — autoridade constrói rápido.', thumb:'7VrJqhd8uuE', av:'liJuAJDNnwQA6VuWyRYTcPW01hgi5D_oRpnJX9POJY2S7MmcevaGt5SvacKD-lwxuDi3lsNI', url:'https://www.youtube.com/channel/UCdwGPRwGPVz90-dH8v_fy_g'},
+  {name:'Revenge Broken Trust', cat:'drama', niche:'Vingança psicológica', subs:'6,17 mil', vids:'21 vídeos', lang:'Inglês', fmt:'História narrada dramatizada', barrier:'Média', subs2:'Traição, manipulação, integridade, consequência', tip:'Variação de "revenge stories" com viés psicológico. 21 vídeos = volume + constância. Formato reproduzível de histórias.', thumb:'AxwtikzVE_c', av:'Vrw9E6EVgAUOi-VxN7Z2m2m8QLBKRz6df7n6iLEbds6uoy-IdRsTmevmowhdWbB6wfTMXjkY6A', url:'https://www.youtube.com/channel/UCXB5HdOFX_IL9MVW7Bm0WGQ'},
+  {name:'Gilded Fortune', cat:'dinheiro', niche:'Riqueza & luxo extremo', subs:'2,38 mil', vids:'24 vídeos', lang:'Inglês', fmt:'Faceless · lista/curiosidades de luxo', barrier:'Baixa-Média', subs2:'Bilionários, mansões, iates, estilos de vida caros', tip:'Nicho de "riqueza inimaginável" fascina. CPM alto (luxo/dinheiro). 24 vídeos = boa cadência. Fácil de produzir com stock + narração.', thumb:'T6UkDdsu77s', av:'MulYymTgnvCTtgSG-GbzLMRIHlembqDCLHCZLdZWI9NUs0F0RJhgJZe1JH7aqsSdvu0rKv7s3Bc', url:'https://www.youtube.com/channel/UChOwAIreKCW3-HwtGBKbZHw'},
+  {name:'MarqueShift ES', cat:'dinheiro', niche:'Documentário de marcas/negócios', subs:'2,57 mil', vids:'19 vídeos', lang:'Espanhol', fmt:'Documentário longo (~53 min)', barrier:'Média-Alta (roteiro longo)', subs2:'História de marcas, ascensão e queda de empresas, estratégia', tip:'Documentário longo de marcas em espanhol (~3 uploads/semana). Vídeos longos = mais watch time e RPM. Modelo replicável por idioma (tem versão RU).', thumb:'-uWEFcNBYKg', av:'ytc/AIdro_mNEAv5MPjwUYT_oMN-I_oKxZXRDcwTzQ5m2dLC8BLZIN_r2XL_arB8rM0NkGGWBLQJXQ', url:'https://www.youtube.com/channel/UCXDx4-I_GoQYe1d8F5BuinA'},
+  {name:'MarqueShift RU', cat:'dinheiro', niche:'Documentário de marcas (RU)', subs:'2,04 mil', vids:'19 vídeos', lang:'Russo', fmt:'Documentário longo', barrier:'Média-Alta', subs2:'História de marcas, empresas, estratégia', tip:'Mesma fôrma do MarqueShift ES, adaptada pro mercado russo. Prova o poder de replicar um formato vencedor em vários idiomas.', thumb:'IqjlXqNF3UE', av:'ytc/AIdro_nZa2L5tvX7AvSd4Ge5CNES4grhI0iSwAR0FOEKVgy-ONyNf84-qq6U12ADeVbgPcot_Q', url:'https://www.youtube.com/channel/UC-Q8w4cUvyrjLgnQyTPXhQA'},
+  {name:"John's Green Life", cat:'especifico', niche:'Jardinagem prática', subs:'23,1 mil', vids:'17 vídeos', lang:'Inglês', fmt:'Guia prático / dicas', barrier:'Média', subs2:'Dicas de plantio, guias de cultivo, horta, jardim', tip:'Jardinagem é evergreen, público fiel e ótimo pra afiliados/produtos. 17 vídeos = 23 mil subs. Nicho de lifestyle com alta recorrência.', thumb:'zdYzlf4rUg4', av:'BzoCPqY44krvw0S2ge82SgtD4fw62OSgHBf5oUAotl-1QBm85Q1WihwIaTwioqsDqISiJvTFHQ', url:'https://www.youtube.com/channel/UCtm78QvpRgsz4fc5Q9r_7WQ', hot:true},
+  {name:'Rielzinz', cat:'especifico', niche:'Games (comentário semanal)', subs:'4,11 mil', vids:'3 vídeos', lang:'Português', fmt:'Comentário / vídeo sobre games', barrier:'Baixa-Média', subs2:'Novidades, análises e comentários de jogos', tip:'"Falo sobre games toda semana." Só 3 vídeos e 4 mil subs — nicho de games em PT-BR com espaço. Constância é a chave aqui.', thumb:'R_sBlVUOMXQ', av:'X2VDNdxRObhJp1vo64n5qrToNHhhPl1BVAWNnyelcWoRTFDHxyUKsVD4B49wCU3ohsu50ageLgA', url:'https://www.youtube.com/channel/UCii2TDLSV8xH3UTfdbsmY7A'},
+  {name:'Brainosophy', cat:'educacao', niche:'Mente & cérebro explicados', subs:'37,2 mil', vids:'2 vídeos', lang:'Inglês', fmt:'Explicativo animado/visual', barrier:'Média-Alta', subs2:'Como a mente funciona, psicologia, comportamento', tip:'"Explicando tudo sobre a mente." SÓ 2 vídeos = 37 mil subs! Prova que um nicho quente (mente/psicologia) + boa produção explode rápido.', thumb:'cS8-iux7F5k', av:'xpFVzJq2UeEUWBklbq_oOVW6xHiQEZ0dTTb0SoUjZkpKiSO6Z8rg-MH3vyUJvtSy2WzhjmINAw', url:'https://www.youtube.com/channel/UC6pABWB5cm6efpzCKNlys7A', hot:true},
+  {name:'MOAT', cat:'dinheiro', niche:'Estratégia de grandes empresas', subs:'2,91 mil', vids:'2 vídeos', lang:'Inglês', fmt:'Documentário deep-dive', barrier:'Média-Alta (roteiro)', subs2:'Estratégia, poder e dinheiro das maiores empresas', tip:'"Por que elas vencem, por que caem." 2 vídeos = 2,9 mil subs. Nicho de negócios/estratégia tem CPM altíssimo e público qualificado.', thumb:'pfAkeMY2Yr4', av:'uGrG86yq_lzrORRjE6d0HhqjqN68Z60evCtwqMa7-YOnLC3sBNKvKklhTmpa9giK--cXhm4bng', url:'https://www.youtube.com/channel/UCkS1G8pMgkX9_qQKp6PYvUA'},
+  {name:'FantasyCore', cat:'musica', niche:'Estética fantasy (aesthetic)', subs:'40,6 mil', vids:'3 vídeos', lang:'Instrumental', fmt:'Música/estética curta (~4 min)', barrier:'Média (IA + curadoria)', subs2:'Fantasy, cottagecore, ambientes mágicos, mood', tip:'SÓ 3 vídeos = 40 mil subs, crescendo +12%/sem! Estética "fantasy/core" com IA. Formato curto e visual. Um dos que mais escala no lote.', thumb:'jZilDNLQPgA', av:'sABMQhtx01Xz6TP6K6I54DD6qn7TlefiWxCicbrNLhToAkqhkYNNoTRGuh1t5o_3dZBtqBxj', url:'https://www.youtube.com/channel/UCToOPw-7qjCpqleqd_ZVL-A', hot:true},
+  {name:'Closure', cat:'musica', niche:'Rock alternativo (projeto)', subs:'3,9 mil', vids:'3 vídeos', lang:'Inglês', fmt:'Música · projeto autoral', barrier:'Alta (composição própria)', subs2:'Rock moderno, melodias emocionais, atmosfera dark', tip:'Projeto de rock alternativo autoral. Barreira alta (música própria), mas identidade forte e fãs leais. Não é faceless genérico.', thumb:'IoWsZhAVOeU', av:'5qsdK7rYY2cQOOQmkmR6_x8b_1TWZtbUJYi7v4VxJVMGcFDxl7PlnsXmg6lQLVB2I_ssreQeuA', url:'https://www.youtube.com/channel/UClPSuriiuGoq0FO3EROeH3Q'},
+  {name:'M A N J I R O', cat:'musica', niche:'Afrobeat/soul melancólico', subs:'8,47 mil', vids:'6 vídeos', lang:'Instrumental', fmt:'Música · faixa autoral', barrier:'Média-Alta', subs2:'Afrobeat suave, soul, cura, emoção', tip:'"Entre luz e água, dor e paz." Afrobeat + soul com estética emocional coesa. 6 vídeos = 8,4 mil subs. Nicho de mood/emoção.', thumb:'VwMbHV9-BZI', av:'868N2kfjs2IHv8h4CNO49PoyArweHE6DBgMwWq4FJ0tPkcm9xRdRGBc53chI2RPJzbAmWxyT', url:'https://www.youtube.com/channel/UCqPB0OxPTm5HYC26alYxK5g'},
+  {name:'Pausa Para a Alma', cat:'musica', niche:'Música relaxante / paz', subs:'8,7 mil', vids:'8 vídeos', lang:'Português', fmt:'Música · playlist relaxante', barrier:'Média', subs2:'Calma, meditação, respiração, paz interior', tip:'Música pra "respirar mais devagar" em PT-BR. Nicho de relaxamento/bem-estar é enorme e evergreen. 8 vídeos = 8,7 mil subs.', thumb:'Ibws6BboXaI', av:'8peRXCKZ9oE4kdboEBXegf1uxRdlnyWp7dKa9EVv4ZrvHvzjk5w5-f4RluX6CcknFD_428ypoA', url:'https://www.youtube.com/channel/UCDgqtLgA-NYWN2SNklbhhMw'},
+  {name:'La Création Guérit', cat:'fe', niche:'Fé + cura natural', subs:'5,81 mil', vids:'14 vídeos', lang:'Francês', fmt:'Explicativo faceless', barrier:'Média', subs2:'Alimentos que curam, escrituras + ciência, saúde natural', tip:'Cruza fé (escrituras) + saúde natural + ciência, em francês. Combinação de nichos que gera público muito engajado. Mercado FR menos saturado.', thumb:'6cIeMcwCx-o', av:'WsuBUviCb6rNFKWDXL1mjKYXLSmCpA9XQLc27qcmmqzy0iie44cXKcIJvuHt_4Uxm8PiiZrB', url:'https://www.youtube.com/channel/UCEXvmFDVpot-C8BiQeU0vCg'},
+  {name:'هَدْي النبي', cat:'fe', niche:'Educação islâmica (rápida)', subs:'5,25 mil', vids:'22 vídeos', lang:'Árabe', fmt:'Explicativo curto faceless', barrier:'Média', subs2:'Sunnah, halal/haram, vida do muçulmano, além', tip:'"Resumo da sua religião em minutos." Conteúdo islâmico prático e curto em árabe. Público gigante e fiel. 22 vídeos = boa constância.', thumb:'hVM-Mu4dB78', av:'fdQcdqgBAgb18H10m6tO_LpjRaWBa1UksXMp8cC6FGPIXSZZxcUH5i6aFrCGjlQgcFaZxHOkpg', url:'https://www.youtube.com/channel/UC0bH4R_QisDdk2QmB_1i-0A'},
+  {name:'Rádio Louvores de Ouro', cat:'fe', niche:'Gospel blues', subs:'3,1 mil', vids:'9 vídeos', lang:'Português', fmt:'Música · gospel/rádio', barrier:'Média', subs2:'Louvor, fé, esperança, sonoridade blues', tip:'Cruza gospel + blues em PT-BR. Nicho cristão é enorme no Brasil. Ângulo sonoro diferente (blues) dá identidade própria.', thumb:'sva9s_VDsXE', av:'pmzdZDO31dJjH7-Xb_TpSa03lv_gKwvuG1fnLtrmmkXmo2eaIShk6AAOHL40ig2Lxwd4XHQSNQ', url:'https://www.youtube.com/channel/UC4Z0LmKZFzLe1knisg-OD9g'},
+  {name:'Nostalgic R&B 24', cat:'musica', niche:'R&B/soul nostálgico (covers)', subs:'3,61 mil', vids:'12 vídeos', lang:'Instrumental', fmt:'Música · covers/mood', barrier:'Média', subs2:'R&B clássico, soul, smooth jazz, releituras', tip:'Clássicos de R&B em versões cover com toque moderno. Nicho de nostalgia musical é forte e fiel. 12 vídeos = 3,6 mil subs.', thumb:'KViEoaRsRSk', av:'OT-NnBKWyWWz4FyLkLD4AXz5e2gUtG4iOszm_OTc6W0WAGd910gvNkt8oYota4sPcq4qlpMfCQ', url:'https://www.youtube.com/channel/UCABSL4xcoXYyyTaoPm0ppRg'},
+  {name:'Mellow Brew', cat:'musica', niche:'Lofi original / relaxante', subs:'3,99 mil', vids:'16 vídeos', lang:'Instrumental', fmt:'Música · composição original', barrier:'Média-Alta', subs2:'Lofi, melodias quentes, estudo, relaxamento', tip:'Composições ORIGINAIS de lofi (não covers). 16 vídeos = 4 mil subs. Nicho de estudo/relax é gigante. Ter faixas próprias é diferencial.', thumb:'nUbcdBREi6E', av:'pG5KLHM88lc4r6QT7lr203KydZGdzZvzMmBneeVaRP388TjF4aCzQbaW6IHuv1lLd8qMuXBPwiw', url:'https://www.youtube.com/channel/UCmfx11FaaaVBAbWVPaGZwMA'},
+  {name:'Música é Nostalgia', cat:'musica', niche:'Sucessos 70/80/90/2000 (BR)', subs:'1,94 mil', vids:'7 vídeos', lang:'Português', fmt:'Música · seleção nostálgica', barrier:'Baixa-Média', subs2:'Flashback, hits nacionais e internacionais antigos', tip:'Nostalgia musical em PT-BR (anos 70 a 2000). Público mais velho, muito engajado. Cuidado com direitos autorais das faixas.', thumb:'ZRNVz_1EnQs', av:'k_pDM2Zy0Ku0vpo3tjDXmu5IvCQ5MwHunBP07ndglu-XIgrB-GYxrzi1s6Bo3zvScdcEMEE6', url:'https://www.youtube.com/channel/UCRZV_ioVDW8jNqspkTmoJZw'},
+  {name:'Stacey Poker', cat:'musica', niche:'Southern Soul & Blues (artista)', subs:'2,17 mil', vids:'15 vídeos', lang:'Inglês', fmt:'Música · artista autoral', barrier:'Alta (artista/produção)', subs2:'Amor, desilusão, fé, cura, redenção', tip:'Artista de Southern Soul/Blues com histórias cruas de vida. Barreira alta (artista real), mas identidade e nicho regional fortíssimos.', thumb:'US4s7UINZYo', av:'rsbQptec9VfXPsCrQ7FlPflOI1VpXTjAaZwy3r3nbIILZTXpv29Mhc7vCayHX-FMCQgGPI4_dA', url:'https://www.youtube.com/channel/UCN90ZkMpPeb-8xgJl66I17Q'}
+];
+
+const grid = document.getElementById('grid');
+const filtersEl = document.getElementById('filters');
+const countEl = document.getElementById('count');
+let activeFilter = 'todos';
+
+function avatarUrl(id){ return `https://yt3.googleusercontent.com/${id}=s176-c-k-c0x00ffffff-no-rj`; }
+function thumbUrl(id){ return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; }
+
+function render(){
+  const list = activeFilter==='todos' ? CH : CH.filter(c=>c.cat===activeFilter);
+  countEl.textContent = `Exibindo ${list.length} de ${CH.length} canais`;
+  grid.innerHTML = list.map(c=>{
+    const cat = CATS[c.cat];
+    return `<div class="card">
+      <div class="thumb">
+        <img src="${thumbUrl(c.thumb)}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'">
+        ${c.hot?'<div class="badge">🔥 Em alta</div>':''}
+        <img class="avatar" src="${avatarUrl(c.av)}" alt="" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="body">
+        <span class="cat-pill" style="color:${cat.color};background:${cat.bg}">${cat.label}</span>
+        <div class="cname">${c.name}</div>
+        <span class="niche-tag">${c.niche}</span>
+        <div class="stats">
+          <div class="stat"><b>${c.subs}</b>inscritos</div>
+          <div class="stat"><b>${c.vids.replace(' vídeos','')}</b>vídeos</div>
+          <div class="stat"><b>${c.lang}</b>idioma</div>
+        </div>
+        <button class="btn" onclick="toggleDetails(this)">Ver detalhes ▾</button>
+        <div class="details">
+          <div class="details-inner">
+            <div class="drow"><span>Formato</span><span>${c.fmt}</span></div>
+            <div class="drow"><span>Barreira</span><span>${c.barrier}</span></div>
+            <div class="drow"><span>Idioma</span><span>${c.lang}</span></div>
+            <div class="drow"><span>Subnichos / temas</span><span>${c.subs2}</span></div>
+            <div class="dip"><b>Dica MAD:</b> ${c.tip}</div>
+            <a class="channel-link" href="${c.url}" target="_blank" rel="noopener">▶ Abrir canal no YouTube</a>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildFilters(){
+  const cats = ['todos', ...Object.keys(CATS)];
+  filtersEl.innerHTML = cats.map(k=>{
+    const label = k==='todos' ? `Todos (${CH.length})` : `${CATS[k].label} (${CH.filter(c=>c.cat===k).length})`;
+    return `<button class="filter${k==='todos'?' active':''}" data-f="${k}">${label}</button>`;
+  }).join('');
+  filtersEl.querySelectorAll('.filter').forEach(b=>{
+    b.onclick=()=>{
+      activeFilter=b.dataset.f;
+      filtersEl.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      render();
+    };
+  });
+}
+
+function toggleDetails(btn){
+  const d=btn.nextElementSibling;
+  const open=d.classList.toggle('open');
+  btn.innerHTML=open?'Ocultar detalhes ▴':'Ver detalhes ▾';
+}
+
+buildFilters();
+render();
+</script>
+</body>
+</html>
