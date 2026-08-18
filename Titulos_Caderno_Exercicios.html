@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação MAD · Caderno de Exercícios — Títulos</title>
+<style>
+  :root{
+    --bg:#0F1115; --panel:#171A21; --panel2:#1E222B; --ink:#F3F5F8; --muted:#9AA0A8;
+    --yellow:#FFD23F; --green:#2ecc71; --red:#ff5b5b; --line:#272C37; --accent:#26BDEA; --purple:#b980ff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:#05060a; font-family:'Segoe UI',Helvetica,Arial,sans-serif; color:var(--ink);
+       display:flex; justify-content:center; padding:40px 16px;}
+  .wrap{width:100%; max-width:800px;}
+  header{margin-bottom:22px;}
+  .brand{font-size:13px; font-weight:800; letter-spacing:4px; color:var(--yellow);}
+  .kicker{color:var(--muted); font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-top:6px;}
+  h1{font-size:30px; margin-top:8px; letter-spacing:-.5px;}
+  .sub{color:var(--muted); margin-top:8px; font-size:16px; line-height:1.5;}
+  .progress{height:8px; background:var(--panel); border-radius:6px; margin:20px 0 4px; overflow:hidden;}
+  .progress > i{display:block; height:100%; width:0; background:var(--yellow); transition:width .3s;}
+  .pmeta{color:var(--muted); font-size:13px; text-align:right;}
+  .section-title{margin:34px 0 4px; font-size:14px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--accent); border-bottom:1px solid var(--line); padding-bottom:8px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:24px; margin-top:18px;}
+  .qnum{color:var(--yellow); font-size:13px; font-weight:700; letter-spacing:1.5px;}
+  .tagline{display:inline-block; margin-left:8px; font-size:11px; font-weight:700; letter-spacing:1px; color:var(--accent);
+           border:1px solid rgba(38,189,234,.4); border-radius:999px; padding:2px 9px; vertical-align:middle;}
+  .tagline.prat{color:var(--purple); border-color:rgba(185,128,255,.4);}
+  .qtext{font-size:20px; font-weight:600; margin:10px 0 6px; line-height:1.35;}
+  .scenario{background:#0c0e13; border:1px dashed var(--line); border-radius:10px; padding:14px 16px; margin:12px 0 16px;
+            font-size:15px; color:#cfd4dc; line-height:1.55;}
+  .scenario b{color:#fff;} .scenario .li{display:block; margin:3px 0;}
+  .opt{display:block; width:100%; text-align:left; background:var(--panel2); border:1px solid var(--line);
+       color:var(--ink); font-size:16px; padding:14px 18px; border-radius:11px; margin-bottom:10px; cursor:pointer;
+       transition:border-color .15s, background .15s;}
+  .opt:hover:not(:disabled){border-color:var(--yellow);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--green); background:rgba(46,204,113,.14);}
+  .opt.wrong{border-color:var(--red); background:rgba(255,91,91,.12);}
+  .opt .mark{float:right; font-weight:800;}
+  .fb{margin-top:6px; font-size:15px; line-height:1.5; padding:14px 16px; border-radius:11px; display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:rgba(46,204,113,.10); border:1px solid rgba(46,204,113,.4);}
+  .fb.no{background:rgba(255,91,91,.08); border:1px solid rgba(255,91,91,.35);}
+  .fb b{color:var(--yellow);}
+  .result{background:linear-gradient(135deg,#1a1d25,#111319); border:1px solid var(--yellow);
+          border-radius:18px; padding:34px; margin-top:24px; text-align:center; display:none;}
+  .result.show{display:block;}
+  .score{font-size:56px; font-weight:900; color:var(--yellow);}
+  .rlabel{font-size:19px; margin-top:6px;} .rmsg{color:var(--muted); margin-top:14px; font-size:16px; line-height:1.5;}
+  .btn{margin-top:20px; background:var(--yellow); color:#05060a; border:none; font-weight:800; font-size:16px;
+       padding:13px 26px; border-radius:999px; cursor:pointer;}
+  /* Exercícios práticos abertos */
+  .prompt{font-size:15px; color:#cfd4dc; line-height:1.55; margin:8px 0 12px;}
+  .prompt b{color:#fff;}
+  textarea{width:100%; min-height:96px; background:#0c0e13; border:1px solid var(--line); border-radius:10px;
+           color:var(--ink); font-size:15px; padding:12px 14px; font-family:inherit; line-height:1.5; resize:vertical;}
+  textarea:focus{outline:none; border-color:var(--yellow);}
+  .reveal-btn{margin-top:12px; background:var(--panel2); border:1px solid var(--accent); color:var(--accent);
+              font-weight:700; font-size:14px; padding:10px 18px; border-radius:999px; cursor:pointer;}
+  .reveal-btn:hover{background:rgba(38,189,234,.1);}
+  .model{display:none; margin-top:14px; background:rgba(46,204,113,.06); border:1px solid rgba(46,204,113,.35);
+         border-radius:11px; padding:16px 18px; font-size:15px; line-height:1.55; color:#d7f0df;}
+  .model.show{display:block;}
+  .model h4{color:var(--green); font-size:14px; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;}
+  .model .ex{color:#eafff0; font-weight:700; margin:4px 0;}
+  .model .crit{color:var(--muted); font-size:13.5px; margin-top:10px; line-height:1.5;}
+  .model .crit b{color:var(--yellow);}
+  .note-open{font-size:12.5px; color:var(--muted); margin-top:10px;}
+  footer{color:#565d6b; font-size:13px; text-align:center; margin-top:30px;}
+  .pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.4px;border-radius:999px;padding:3px 9px;}
+  .pill.sub{background:rgba(185,128,255,.14);border:1px solid rgba(185,128,255,.4);color:var(--purple);}
+  .pill.tema{background:rgba(38,189,234,.12);border:1px solid rgba(38,189,234,.4);color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">FORMAÇÃO MAD</div>
+    <div class="kicker">Módulo 5 · Caderno de Exercícios · Títulos</div>
+    <h1>Exercícios de Fixação — Títulos</h1>
+    <div class="sub">Duas partes: <b style="color:#fff">Fixação</b> (20 questões com correção automática) e <b style="color:#fff">Prática</b> (exercícios abertos com resposta-modelo). Faça na ordem — o feedback aparece na hora.</div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="pmeta"><span id="answered">0</span>/<span id="total">0</span> da fixação respondidas</div>
+  </header>
+
+  <div class="section-title">Parte 1 · Fixação (com correção automática)</div>
+  <div id="quiz"></div>
+
+  <div class="result" id="result">
+    <div class="score"><span id="scoreN">0</span>/<span id="scoreT">0</span></div>
+    <div class="rlabel" id="rlabel"></div>
+    <div class="rmsg" id="rmsg"></div>
+    <button class="btn" onclick="location.reload()">Refazer a fixação</button>
+  </div>
+
+  <div class="section-title">Parte 2 · Prática (exercícios abertos)</div>
+  <div class="sub" style="margin-top:10px;">Sem correção automática: escreva a sua resposta e depois clique em <b style="color:#fff">Ver resposta-modelo</b> pra comparar com os critérios.</div>
+  <div id="practica"></div>
+
+  <footer>Formação MAD · Módulo 5 — Caderno de Exercícios de Títulos · Canal Dark</footer>
+</div>
+
+<script>
+/* ===================== PARTE 1 — FIXAÇÃO (MC) ===================== */
+const QUESTIONS = [
+  {
+    q: "Qual peça é responsável direta pelas IMPRESSÕES e por converter a impressão em clique?",
+    options: ["A thumbnail","O título","A edição do vídeo","A trilha sonora"],
+    correct: 1,
+    exp: "O título gera as impressões e fecha o clique. A thumb chama atenção pra ele; o título converte."
+  },
+  {
+    q: "Por que o clique é tão decisivo no YouTube (diferente do TikTok)?",
+    options: [
+      "Porque o YouTube toca o vídeo sozinho ao rolar a tela",
+      "Porque o YouTube é intencional: você só assiste o que decide clicar",
+      "Porque o TikTok não tem algoritmo",
+      "Porque no YouTube não existe feed"
+    ],
+    correct: 1,
+    exp: "YouTube é plataforma intencional — alguém precisa ser convencido a clicar. Sem clique, o vídeo nem começa."
+  },
+  {
+    q: "Sobre clique x retenção, qual afirmação está certa?",
+    options: [
+      "Só a retenção importa; o clique é irrelevante",
+      "Só o clique importa; a retenção não conta",
+      "O clique abre a porta (traz a pessoa); a retenção mantém a entrega",
+      "Clique e retenção são a mesma métrica"
+    ],
+    correct: 2,
+    exp: "Os dois importam em momentos diferentes: o título traz a pessoa, a intro a segura. Um título forte com intro fraca queima o vídeo."
+  },
+  {
+    q: "O que é o SUBNICHO de um canal?",
+    options: [
+      "O assunto de cada vídeo",
+      "A PESSOA pra quem o canal fala",
+      "O número de inscritos",
+      "A estrutura do título"
+    ],
+    correct: 1,
+    exp: "Subnicho = a pessoa (o público). Tema = o assunto. Não confundir os dois é o que segura o canal."
+  },
+  {
+    q: "O que é o TEMA?",
+    options: [
+      "A pessoa pra quem o vídeo fala",
+      "O assunto recorrente que você entrega dentro do subnicho",
+      "A cor da thumbnail",
+      "A duração do vídeo"
+    ],
+    correct: 1,
+    exp: "Tema é o assunto, sempre servindo a mesma pessoa (o subnicho). Muitos temas, uma só pessoa."
+  },
+  {
+    q: "Treino no olho — identifique o SUBNICHO deste título:",
+    scenario: "<b>Título:</b> \"7 Sinais de Que Deus Está Removendo Alguém da Sua Vida\"",
+    options: [
+      "Os 7 sinais",
+      "Mulher/pessoa cristã que quer proteção e discernimento sobre gente ao redor",
+      "Deus",
+      "Histórias bíblicas"
+    ],
+    correct: 1,
+    exp: "O subnicho é a PESSOA: quem busca proteção espiritual. \"7 sinais\" e \"Deus removendo\" são o tema (o assunto)."
+  },
+  {
+    q: "Ache o INTRUSO. Canal com subnicho \"mulher cristã que quer se proteger de gente tóxica\". Qual título NÃO pertence?",
+    scenario: "<span class='li'>A) 8 Sinais de Que o Mal Está Usando Uma Pessoa Próxima</span><span class='li'>B) Como Escolher o Homem Certo Pra Casar</span><span class='li'>C) 7 Pessoas Que Você Deve Afastar da Sua Vida</span><span class='li'>D) Sinais de Que Deus Está Te Protegendo de Alguém</span>",
+    options: ["A","B","C","D"],
+    correct: 1,
+    exp: "B muda a PESSOA (mulher solteira escolhendo parceiro) — outro subnicho. Os outros falam com a mesma mulher se protegendo."
+  },
+  {
+    q: "O que é um FRAMEWORK de título?",
+    options: [
+      "Um título pronto pra copiar e colar",
+      "O esqueleto (estrutura validada) que você veste com o seu tema",
+      "Uma ferramenta de IA",
+      "A tag do vídeo"
+    ],
+    correct: 1,
+    exp: "Framework = estrutura validada, sem o assunto. Você extrai o esqueleto e recria original no seu nicho."
+  },
+  {
+    q: "Por que NÃO se deve usar a mesma estrutura de título em mais de ~30% dos vídeos?",
+    options: [
+      "Porque fica feio",
+      "Porque canibaliza e o YouTube pode ler como conteúdo em massa / não-autêntico (risco de desmonetização)",
+      "Porque o título fica curto demais",
+      "Não tem problema repetir sempre a mesma"
+    ],
+    correct: 1,
+    exp: "Repetir uma só fôrma vira 'modelo' e satura. A solução é ter um arsenal e variar."
+  },
+  {
+    q: "Onde é mais inteligente buscar NOVOS frameworks?",
+    options: [
+      "Só nos canais do seu próprio nicho",
+      "Fora do seu nicho — uma estrutura que bombou em outro nicho pode ser vestida no seu",
+      "Só na IA",
+      "Não precisa buscar, invente do zero"
+    ],
+    correct: 1,
+    exp: "Frameworks são portáteis. Buscar fora te deixa original; copiar dentro do seu nicho te deixa genérico."
+  },
+  {
+    q: "Qual título é o MAIS FORTE?",
+    options: [
+      "Como Investir Seu Primeiro Salário",
+      "O Que Fazer Com Seu Primeiro Salário? Dicas Pra Não Errar",
+      "Perdi 40% do Meu Primeiro Salário Fazendo Isto. Não Cometa o Mesmo Erro",
+      "Dicas de Investimento Para Iniciantes"
+    ],
+    correct: 2,
+    exp: "Número exato + experiência real (\"perdi\") + erro escondido + alerta. É a mesma info, com a emoção certa."
+  },
+  {
+    q: "Qual destas NÃO é uma boa prática de título?",
+    options: [
+      "Deixar uma lacuna aberta (não entregar o final)",
+      "Entregar a resposta completa já no título",
+      "Usar número/tempo/valor específicos",
+      "Tocar uma emoção"
+    ],
+    correct: 1,
+    exp: "Se o título entrega o final, a curiosidade morre antes do clique. Prometa a resposta sem dá-la."
+  },
+  {
+    q: "Qual é a faixa ideal de tamanho de um título?",
+    options: [
+      "Sempre 100 caracteres (o máximo)",
+      "~50–65 caracteres, com o mais forte nos primeiros ~40",
+      "Menos de 10 caracteres",
+      "O tamanho não importa"
+    ],
+    correct: 1,
+    exp: "50–65 caracteres. O celular e os sugeridos cortam o final — por isso o forte vai no começo."
+  },
+  {
+    q: "Sobre números em títulos:",
+    options: [
+      "Pares convertem sempre mais",
+      "Números ímpares (7, 5, 11) tendem a converter um pouco mais que pares",
+      "Números não fazem diferença",
+      "Nunca use números"
+    ],
+    correct: 1,
+    exp: "Ímpares costumam ter CTR um pouco maior. E qualquer número concretiza e promete o conteúdo."
+  },
+  {
+    q: "Sobre clickbait, qual afirmação está certa?",
+    options: [
+      "Clickbait é proibido em qualquer forma",
+      "Pode prometer qualquer coisa, mesmo sem entregar",
+      "Isca (aumentar o gostinho) é ok — desde que o vídeo entregue o que prometeu",
+      "Clickbait não afeta a retenção"
+    ],
+    correct: 2,
+    exp: "Isca é permitida; mentira não. Se o vídeo não entrega, a retenção despenca e a confiança quebra."
+  },
+  {
+    q: "Título e thumbnail devem:",
+    options: [
+      "Escrever exatamente a mesma frase",
+      "Contar pedaços DIFERENTES da mesma promessa (se completar, não repetir)",
+      "Ser sobre assuntos diferentes",
+      "A thumb não tem relação com o título"
+    ],
+    correct: 1,
+    exp: "A thumb mostra a cena/emoção; o título entrega a info que a imagem não dá. Repetir gasta o cartucho duas vezes."
+  },
+  {
+    q: "Qual é a ORDEM certa de produção?",
+    options: [
+      "Vídeo → depois título",
+      "Tema → Ideia → Título + Headline da thumb → Vídeo",
+      "Thumb → Vídeo → Título → Tema",
+      "Título → Tema → Ideia → Vídeo"
+    ],
+    correct: 1,
+    exp: "Título antes do vídeo: assim o título vira a bússola do roteiro, em vez de um enfeite jogado no fim."
+  },
+  {
+    q: "Na engenharia reversa da audiência, qual é a MELHOR fonte pra saber como a persona fala e o que ela sente?",
+    options: [
+      "Sua própria opinião",
+      "Os comentários (dos seus vídeos e dos concorrentes)",
+      "A aba de tags do YouTube",
+      "A quantidade de inscritos"
+    ],
+    correct: 1,
+    exp: "Nos comentários a persona te entrega a dor com as palavras dela. Devolva essa fala em forma de título."
+  },
+  {
+    q: "Treino no olho — identifique o FRAMEWORK:",
+    scenario: "<b>Título:</b> \"Perdi 40% do Meu Salário Fazendo Isto. Não Cometa o Mesmo Erro\"",
+    options: [
+      "Versus (A vs B)",
+      "Resultado numérico + erro/ação + alerta",
+      "Pergunta simples",
+      "Lista de dicas"
+    ],
+    correct: 1,
+    exp: "Número exato (40%) + a ação/erro + o alerta final. É uma estrutura coringa que serve vários nichos."
+  },
+  {
+    q: "Para o INICIANTE, qual é o melhor caminho com títulos?",
+    options: [
+      "Jogar o tema na IA e postar o que ela der",
+      "Dominar a criação no manual e usar a IA só como apoio pra entender estruturas",
+      "Copiar o título do maior canal do nicho",
+      "Nunca estudar títulos"
+    ],
+    correct: 1,
+    exp: "Se todos usam IA, o seu tem que se destacar. Quem domina no olho sai muito na frente. IA só apoia."
+  }
+];
+
+/* ===================== PARTE 2 — PRÁTICA (abertos) ===================== */
+const PRACTICA = [
+  {
+    q: "Vista o framework num nicho.",
+    prompt: "Framework: <b>[Nº ímpar] Erros Que [consequência ruim] Sem Você Perceber</b>. Escreva um título usando esse framework no nicho de <b>emagrecimento</b>. Depois identifique o subnicho e o tema.",
+    model: {
+      ex: ["\"5 Erros Que Te Mantêm Parado na Balança Sem Você Perceber\""],
+      tags: '<span class="pill sub">SUBNICHO: quem quer emagrecer</span> <span class="pill tema">TEMA: erros que travam o emagrecimento</span>',
+      crit: "Critérios: <b>número ímpar</b>, <b>consequência concreta</b> (\"parado na balança\"), <b>lacuna</b> (quais erros?), fala com <b>uma pessoa só</b> e cabe em ~50–65 caracteres."
+    }
+  },
+  {
+    q: "Suba a escada: fraco → forte.",
+    prompt: "Título fraco: <b>\"Dicas Para Investir Seu Dinheiro\"</b>. Reescreva num título forte (curiosidade + especificidade). Mantenha o subnicho \"iniciante que quer investir\".",
+    model: {
+      ex: ["\"Investi R$100 Por Mês Por 1 Ano — Foi Isto Que Aconteceu\"","\"O Erro de Iniciante Que Faz Você Perder Dinheiro na Primeira Ação\""],
+      tags: '<span class="pill sub">SUBNICHO: iniciante que quer investir</span> <span class="pill tema">TEMA: começar a investir sem errar</span>',
+      crit: "Critérios: saiu do genérico, ganhou <b>número/tempo/valor</b>, criou <b>lacuna</b> (o que aconteceu? qual erro?), e mexeu com <b>emoção</b> (medo de errar / curiosidade do resultado)."
+    }
+  },
+  {
+    q: "Separe tema de intruso.",
+    prompt: "Subnicho: <b>mulher endividada</b>. Escreva <b>3 temas válidos</b> (mesma pessoa) e <b>1 intruso</b> (outra pessoa). Explique por que o intruso não pertence.",
+    model: {
+      ex: ["Válidos: (1) Como quitar o cartão sem renda extra · (2) Sair do nome sujo em 6 meses · (3) Erros que afundam quem está no vermelho","Intruso: \"As Melhores Criptomoedas Para Ficar Rico Rápido\""],
+      tags: '<span class="pill sub">SUBNICHO fixo: mulher endividada</span>',
+      crit: "Por que o intruso não pertence: ele fala com o <b>especulador/investidor</b>, não com a endividada. Muda a PESSOA → é mistura de subnicho, mesmo sendo do nicho de finanças."
+    }
+  },
+  {
+    q: "Framework portátil em 2 nichos.",
+    prompt: "Framework: <b>O Dia em Que [evento] Mudou o Mundo Pra Sempre</b>. Adapte para <b>2 nichos diferentes</b> (ex: história e um outro à sua escolha).",
+    model: {
+      ex: ["História: \"O Dia em Que a Bomba de Hiroshima Mudou o Mundo Pra Sempre\"","Tecnologia: \"O Dia em Que o iPhone Mudou o Mundo Pra Sempre\""],
+      tags: '<span class="pill tema">Mesmo esqueleto, contextos diferentes</span>',
+      crit: "Critérios: manteve o <b>esqueleto</b>, trocou só o evento, cada um serve um <b>público diferente</b>, e continua com peso emocional (\"mudou o mundo pra sempre\")."
+    }
+  },
+  {
+    q: "Desafio final: crie do zero.",
+    prompt: "Escolha um subnicho que você queira trabalhar. Escreva o <b>subnicho</b> (a pessoa), <b>2 temas</b>, e <b>1 título</b> pra cada tema usando frameworks diferentes. Confira no checklist abaixo.",
+    model: {
+      ex: ["Ex.: SUBNICHO = homem que quer voltar a treinar depois dos 40","Tema 1 (aviso): \"Pare de Treinar Assim Depois dos 40 — Você Está Se Machucando\"","Tema 2 (transformação): \"Voltei a Treinar aos 42 e Meu Corpo Mudou em 90 Dias\""],
+      tags: '<span class="pill sub">SUBNICHO fixo</span> <span class="pill tema">2 temas, 2 frameworks diferentes</span>',
+      crit: "Checklist: mesmo <b>subnicho</b> nos dois? <b>frameworks diferentes</b>? cada um tem <b>lacuna</b> + <b>especificidade</b>? cabe em ~50–65 caracteres? o vídeo entregaria a promessa?"
+    }
+  }
+];
+
+/* ===================== ENGINE ===================== */
+const quiz = document.getElementById('quiz');
+const bar = document.getElementById('bar');
+const answeredEl = document.getElementById('answered');
+document.getElementById('total').textContent = QUESTIONS.length;
+document.getElementById('scoreT').textContent = QUESTIONS.length;
+let answered = 0, score = 0;
+
+QUESTIONS.forEach((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const isEye = !!item.scenario;
+  card.innerHTML = `<div class="qnum">FIXAÇÃO ${i+1}${isEye ? '<span class="tagline">TREINO NO OLHO</span>' : ''}</div>`
+    + `<div class="qtext">${item.q}</div>`
+    + (item.scenario ? `<div class="scenario">${item.scenario}</div>` : '');
+  const fb = document.createElement('div');
+  fb.className = 'fb';
+  item.options.forEach((opt, j) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = opt;
+    b.onclick = () => choose(card, fb, item, j, b);
+    card.appendChild(b);
+  });
+  card.appendChild(fb);
+  quiz.appendChild(card);
+});
+
+function choose(card, fb, item, ji, btn){
+  if(card.dataset.done) return;
+  card.dataset.done = "1";
+  const buttons = card.querySelectorAll('.opt');
+  buttons.forEach((b,idx)=>{
+    b.disabled = true;
+    if(idx === item.correct){ b.classList.add('correct'); b.insertAdjacentHTML('beforeend','<span class="mark">✓</span>'); }
+  });
+  const ok = ji === item.correct;
+  if(ok){ score++; } else { btn.classList.add('wrong'); btn.insertAdjacentHTML('beforeend','<span class="mark">✗</span>'); }
+  fb.classList.add('show', ok ? 'ok':'no');
+  fb.innerHTML = (ok ? '<b>Correto!</b> ' : '<b>Quase.</b> ') + item.exp;
+  answered++;
+  answeredEl.textContent = answered;
+  bar.style.width = (answered/QUESTIONS.length*100) + '%';
+  if(answered === QUESTIONS.length) finish();
+}
+
+function finish(){
+  const r = document.getElementById('result');
+  document.getElementById('scoreN').textContent = score;
+  const pct = score/QUESTIONS.length;
+  let label, msg;
+  if(pct === 1){ label="Dominou! 🎯"; msg="Você entende título como peça nº1, separa subnicho de tema e sabe usar frameworks. Agora vá pra Parte 2 e treine na prática."; }
+  else if(pct >= 0.75){ label="Muito bom!"; msg="Base sólida. Revise o que errou e siga pros exercícios práticos."; }
+  else if(pct >= 0.5){ label="No caminho."; msg="Reforce subnicho x tema e a lógica dos frameworks (variar, não repetir), e refaça."; }
+  else { label="Bora reforçar."; msg="Sem crise. Reveja a apresentação de Títulos e refaça a fixação com calma."; }
+  document.getElementById('rlabel').textContent = label;
+  document.getElementById('rmsg').textContent = msg;
+  r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+/* Parte 2 render */
+const prat = document.getElementById('practica');
+PRACTICA.forEach((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const modelId = 'model'+i;
+  card.innerHTML = `<div class="qnum">PRÁTICA ${i+1}<span class="tagline prat">EXERCÍCIO ABERTO</span></div>`
+    + `<div class="qtext">${item.q}</div>`
+    + `<div class="prompt">${item.prompt}</div>`
+    + `<textarea placeholder="Escreva sua resposta aqui..."></textarea>`
+    + `<button class="reveal-btn" onclick="toggleModel('${modelId}', this)">Ver resposta-modelo</button>`
+    + `<div class="model" id="${modelId}">`
+    +   `<h4>Resposta-modelo</h4>`
+    +   item.model.ex.map(e=>`<div class="ex">${e}</div>`).join('')
+    +   `<div style="margin-top:10px;">${item.model.tags}</div>`
+    +   `<div class="crit">${item.model.crit}</div>`
+    + `</div>`
+    + `<div class="note-open">Sem correção automática — compare a sua resposta com os critérios acima.</div>`;
+  prat.appendChild(card);
+});
+
+function toggleModel(id, btn){
+  const m = document.getElementById(id);
+  const open = m.classList.toggle('show');
+  btn.textContent = open ? 'Ocultar resposta-modelo' : 'Ver resposta-modelo';
+}
+</script>
+</body>
+</html>
