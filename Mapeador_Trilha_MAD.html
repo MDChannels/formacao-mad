@@ -163,6 +163,24 @@
       <textarea placeholder="Escreva aqui..."></textarea>
     </div>
 
+    <!-- Q10 nome -->
+    <div class="q" data-key="nome" data-type="nome" data-req="1">
+      <div class="qlabel">10. Qual é o seu nome? <span class="req">*</span></div>
+      <input type="text" id="nome" placeholder="Seu nome">
+    </div>
+
+    <!-- Q11 idade -->
+    <div class="q" data-key="idade" data-type="single" data-req="1">
+      <div class="qlabel">11. Qual a sua faixa de idade? <span class="req">*</span></div>
+      <div class="opts">
+        <button class="opt" data-v="18 a 24"><span class="dot"></span>18 a 24 anos</button>
+        <button class="opt" data-v="25 a 34"><span class="dot"></span>25 a 34 anos</button>
+        <button class="opt" data-v="35 a 44"><span class="dot"></span>35 a 44 anos</button>
+        <button class="opt" data-v="45 a 54"><span class="dot"></span>45 a 54 anos</button>
+        <button class="opt" data-v="55 ou mais"><span class="dot"></span>55 anos ou mais</button>
+      </div>
+    </div>
+
     <button class="submit" onclick="finalizar()">Gerar minha trilha personalizada →</button>
     <div class="err" id="err">Responda as perguntas obrigatórias (*) antes de continuar.</div>
     <footer>Formação MAD · Módulo 1 — Mapeador de Trilha</footer>
@@ -268,6 +286,8 @@ function collectText(){
     const t=q.querySelector('textarea');
     answers[q.dataset.key]=t?t.value.trim():"";
   });
+  const nomeEl=document.getElementById('nome');
+  answers.nome = nomeEl ? nomeEl.value.trim() : "";
 }
 
 function validate(){
@@ -275,6 +295,8 @@ function validate(){
   const req=['objetivo','estagio','tempo_dia','orcamento','expectativa_dias'];
   for(const k of req){ if(!answers[k]) return false; }
   if(!answers.dificuldade) return false;
+  if(!answers.nome) return false;
+  if(!answers.idade) return false;
   return true;
 }
 
@@ -348,7 +370,7 @@ function baixarPDF(){
   y = 130;
 
   doc.setTextColor(20,20,20); doc.setFont('helvetica','bold'); doc.setFontSize(13);
-  doc.text("Aqui esta a sua trilha personalizada.", M, y); y+=22;
+  doc.text("Ola, "+(answers.nome||"aluno")+"! Aqui esta a sua trilha.", M, y); y+=22;
   doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(70,70,70);
   y = wrap(doc,"Nivel "+nivel+" - "+tr.nome+". "+tr.msg, M, y, W-2*M, 15);
   y+=10;
